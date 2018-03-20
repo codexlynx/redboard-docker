@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  redboard:
+    env_file: .secrets.env
+    build: .
+    container_name: redboard
+    networks:
+      - redboard_net
+    ports:
+      - "8443:8443"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: "tutum/mongodb:3.2"
+    container_name: mongodb
+    env_file: .secrets.env
+    networks:
+      - redboard_net
+    environment:
+      MONGODB_DATABASE: redboard
+
+networks:
+  redboard_net:
